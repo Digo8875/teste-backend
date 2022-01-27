@@ -21,7 +21,7 @@ class Link extends Model
      * @var array
      */
     protected $fillable = [
-        'url', 'slug', 'accesses',
+        'url', 'slug', 'accesses', 'id_user',
     ];
 
     /**
@@ -30,7 +30,7 @@ class Link extends Model
      * @var array
      */
     protected $guarded = [
-        'id', 'id_user',
+        'id',
     ];
 
     /**

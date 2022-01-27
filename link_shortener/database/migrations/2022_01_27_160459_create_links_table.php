@@ -21,7 +21,7 @@ class CreateLinksTable extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->string('url', 250);
-            $table->string('slug', 8);
+            $table->string('slug', 8)->unique();
             $table->unsignedInteger('accesses')->default(0);
 
             // FK

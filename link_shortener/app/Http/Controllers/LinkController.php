@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Link;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreLinkRequest;
+
+use App\Repositories\LinkRepository;
 
 class LinkController extends Controller
 {
+    protected $link_repository;
+
+    public function __construct(LinkRepository $link_repository)
+    {
+        $this->link_repository = $link_repository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +33,7 @@ class LinkController extends Controller
      */
     public function create()
     {
-        //
+        return view('links.create_edit', ['link' => $this->link_repository->newLink()]);
     }
 
     /**
@@ -33,9 +42,22 @@ class LinkController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreLinkRequest $request)
     {
-        //
+        $link_details = $request->only([
+            'url',
+            'slug'
+        ]);
+
+        if (is_null($link_details['slug'])) {
+            $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
+        }
+
+        $link_details['id_user'] = auth()->user()->id;
+
+        $this->link_repository->createLink($link_details);
+
+        return redirect()->route('home');
     }
 
     /**

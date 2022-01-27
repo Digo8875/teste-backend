@@ -19,5 +19,10 @@
             </div>
         </div>
     </div>
+
+    <div class="row m-0 p-0 mt-5 justify-content-center">
+        <a role="button" class="btn btn-primary shadow mx-3" href="{{ route('links.create') }}">{{ __('Novo LINK') }}</a>
+        <a role="button" class="btn btn-success shadow mx-3" href="{{ route('links.index') }}">{{ __('Meus LINKs') }}</a>
+    </div>
 </div>
 @endsection

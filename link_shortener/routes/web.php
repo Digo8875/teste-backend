@@ -20,3 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+//Route Group for Logged Users
+Route::middleware('auth')->group(function() {
+
+    Route::resource('links', 'LinkController');
+});
