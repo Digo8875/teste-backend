@@ -25,7 +25,7 @@ class StoreLinkRequest extends FormRequest
     {
         return [
             'url' => ['bail', 'required', 'url', 'string', 'max:250'],
-            'slug' => ['bail', 'nullable', 'string', 'max:8', 'unique:links'],
+            'slug' => ['bail', 'nullable', 'string', 'min:6', 'max:8', 'unique:links'],
         ];
     }
 
@@ -37,7 +37,7 @@ class StoreLinkRequest extends FormRequest
     public function messages()
     {
         return [
-            'url.url' => 'A Full URL with http:// or https:// is required',
+            'url.url' => 'A Full URL with http:// or https:// is required'
         ];
     }
 }

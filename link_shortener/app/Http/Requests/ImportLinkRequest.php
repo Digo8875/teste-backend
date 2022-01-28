@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateLinkRequest extends FormRequest
+class ImportLinkRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,7 @@ class UpdateLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'url' => ['bail', 'required', 'url', 'string', 'max:250'],
-            'slug' => ['bail', 'nullable', 'string', 'min:6', 'max:8', 'unique:links,slug,'.$this->link],
+            'file_links' => ['bail', 'required', 'file', 'mimes:csv,txt', 'max:5120']
         ];
     }
 
@@ -37,7 +36,8 @@ class UpdateLinkRequest extends FormRequest
     public function messages()
     {
         return [
-            'url.url' => 'A Full URL with http:// or https:// is required',
+            'file_links.mimes' => 'The file must be in .CSV format',
+            'file_links.max' => 'The file size must be under 5Mb'
         ];
     }
 }

@@ -26,7 +26,7 @@
                 <tbody>
                 @if(count($links) < 1)
                     <tr>
-                        <td class="text-center" colspan="4">{{ __("Não há registros no sistema") }}</td>
+                        <td class="text-center" colspan="5">{{ __("Não há registros no sistema") }}</td>
                     </tr>
                 @else
                     @for($i = 0; $i < count($links); $i++)

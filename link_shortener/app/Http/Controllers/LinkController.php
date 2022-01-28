@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
+use App\Http\Requests\ImportLinkRequest;
 
 use App\Repositories\LinkRepository;
 use App\Repositories\AccessorRepository;
@@ -46,7 +47,7 @@ class LinkController extends Controller
             'slug'
         ]);
 
-        if (is_null($link_details['slug'])) {
+        if (is_null($link_details['slug']) || empty($link_details['slug'])) {
             $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
         }
 
@@ -83,7 +84,7 @@ class LinkController extends Controller
             'slug'
         ]);
 
-        if (is_null($link_details['slug'])) {
+        if (is_null($link_details['slug']) || empty($link_details['slug'])) {
             $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
         }
 
@@ -114,5 +115,48 @@ class LinkController extends Controller
         $this->accessor_repository->createAccessor($link->id);
 
         return redirect()->away($link->url);
+    }
+
+    /**
+     * Get the specified link from storage with an slug.
+     */
+    public function importLinks(ImportLinkRequest $request)
+    {
+        $user = auth()->user();
+
+        $file = fopen($request->file_links, 'r');
+
+        $delimiter = ',';
+
+        if ($file) {
+
+            $header = fgetcsv($file, 0, $delimiter);
+
+            while (!feof($file)) {
+
+                $row = fgetcsv($file, 0, $delimiter);
+                if (!$row) {
+                    continue;
+                }
+
+                $link_details = [
+                    'url' => $row[0],
+                    'slug' => isset($row[1]) ? $row[1] : '',
+                    'id_user' => $user->id
+                ];
+
+                if (is_null($link_details['slug']) || empty($link_details['slug'])) {
+                    $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
+                }
+
+                $link = $this->link_repository->getLinkBySlug($link_details['slug'], null);
+
+                if (is_null($link) && !is_null($link_details['url']))
+                    $this->link_repository->createLink($link_details);
+            }
+            fclose($file);
+        }
+
+        return redirect()->route('links.index');
     }
 }

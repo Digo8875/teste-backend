@@ -27,4 +27,6 @@ Route::get('/get_link/{slug}', 'LinkController@getLinkBySlug')->name('get_link')
 Route::middleware('auth')->group(function() {
 
     Route::resource('links', 'LinkController');
+
+    Route::post('/import_links', 'LinkController@importLinks')->name('import_links');
 });

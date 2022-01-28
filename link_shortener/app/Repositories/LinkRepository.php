@@ -45,9 +45,12 @@ class LinkRepository
         return $link->delete();
     }
 
-    public function getLinkBySlug($slug)
+    public function getLinkBySlug($slug, $return_type = 'fail')
     {
-        return Link::where('slug', '=', $slug)->firstOrFail();
+        if ($return_type == 'fail')
+            return Link::where('slug', '=', $slug)->firstOrFail();
+        else
+            return Link::where('slug', '=', $slug)->first();
     }
 
     public function incrementLinkAccess($id)
