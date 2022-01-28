@@ -159,4 +159,48 @@ class LinkController extends Controller
 
         return redirect()->route('links.index');
     }
+
+    /**
+     * Store many newly created resources in storage through an archive.
+     */
+    public function exportLinks()
+    {
+        $user = auth()->user();
+
+        $header_fields = [
+            'link',
+            'short',
+            'accesses'
+        ];
+
+        $filename = 'export_'.$user->name.'_'.date("Y-m-d").".csv";
+        $now = gmdate("D, d M Y H:i:s");
+        header("Expires: Tue, 03 Jul 2001 06:00:00 GMT");
+        header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
+        header("Last-Modified: {$now} GMT");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+        header("Content-Disposition: attachment;filename={$filename}");
+        header("Content-Transfer-Encoding: binary");
+
+        ob_start();
+        $file = fopen("php://output", 'w');
+        fputcsv($file, $header_fields);
+
+        $user->links()->chunk(50, function($links) use(&$file){
+            foreach ($links as $link) {
+                $row = [
+                    $link->url,
+                    $link->slug,
+                    $link->accesses
+                ];
+
+                fputcsv($file, $row);
+            }
+        });
+
+        fclose($file);
+        echo ob_get_clean();
+    }
 }

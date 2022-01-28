@@ -23,7 +23,7 @@
     <div class="row m-0 p-0 my-5 justify-content-center">
         <a role="button" class="btn btn-primary shadow mx-3" href="{{ route('links.create') }}">{{ __('Novo LINK') }}</a>
         <a role="button" class="btn btn-success shadow mx-3" href="{{ route('links.index') }}">{{ __('Meus LINKs') }}</a>
-        <a role="button" class="btn btn-info shadow mx-3" href="#">{{ __('Exportar Meus LINKs') }}</a>
+        <a role="button" class="btn btn-info shadow mx-3" href="{{ route('export_links') }}">{{ __('Exportar Meus LINKs') }}</a>
     </div>
 
     <hr>

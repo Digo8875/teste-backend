@@ -29,4 +29,5 @@ Route::middleware('auth')->group(function() {
     Route::resource('links', 'LinkController');
 
     Route::post('/import_links', 'LinkController@importLinks')->name('import_links');
+    Route::get('/export_links', 'LinkController@exportLinks')->name('export_links');
 });
