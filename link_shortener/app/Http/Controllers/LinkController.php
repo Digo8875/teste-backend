@@ -66,7 +66,9 @@ class LinkController extends Controller
      */
     public function show(Link $link)
     {
-        //
+        $this->authorize('show', $link);
+
+        return view('links.show', ['link' => $link, 'accessors' => $link->accessors()->orderBy('created_at', 'DESC')->get()]);
     }
 
     /**

@@ -46,4 +46,16 @@ class LinkPolicy
     {
         return $user->id === $link->id_user;
     }
+
+    /**
+     * Determine whether the user can show the model.
+     *
+     * @param  \App\User  $user
+     * @param  \App\Models\Link  $link
+     * @return mixed
+     */
+    public function show(User $user, Link $link)
+    {
+        return $user->id === $link->id_user;
+    }
 }

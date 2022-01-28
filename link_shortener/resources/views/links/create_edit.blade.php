@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header">
             <a href="{{ route('home') }}" title="{{__('Voltar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 mr-3'>
-                <i class="fas fa-undo-alt fa-lg"></i>
+                <i class="fas fa-home fa-lg"></i>
             </a>
             {{ isset($link->id) ? __('Editar Link') : __('Novo Link') }}
         </div>

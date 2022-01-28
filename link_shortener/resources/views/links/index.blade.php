@@ -6,7 +6,7 @@
     <div class="card">
         <div class="card-header">
             <a href="{{ route('home') }}" title="{{__('Voltar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 mr-3'>
-                <i class="fas fa-undo-alt fa-lg"></i>
+                <i class="fas fa-home fa-lg"></i>
             </a>
             {{ __('Seus Links') }}
         </div>
@@ -42,6 +42,10 @@
 
                             <td class="text-center" style="vertical-align: middle;">
                                 <div class="row m-0 p-0 justify-content-center">
+                                    <a href="{{ route('links.show', $links[$i]->id) }}" title="{{__('Detalhes')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 m-1'>
+                                        <i class="fas fa-search-plus fa-lg"></i>
+                                    </a>
+
                                     <a href="{{ route('links.edit', $links[$i]->id) }}" title="{{__('Editar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 m-1'>
                                         <i class="fas fa-edit fa-lg"></i>
                                     </a>
