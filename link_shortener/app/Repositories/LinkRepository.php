@@ -27,10 +27,8 @@ class LinkRepository
         return Link::findOrFail($id);
     }
 
-    public function updateLink($link_details, $id)
+    public function updateLink($link_details, Link $link)
     {
-        $link = Link::findOrFail($id);
-
         foreach ($link_details as $key => $value) {
             $link->$key = $value;
         }
@@ -38,10 +36,8 @@ class LinkRepository
         return $link->save();
     }
 
-    public function deleteLink($id)
+    public function deleteLink(Link $link)
     {
-        $link = Link::findOrFail($id);
-
         return $link->delete();
     }
 

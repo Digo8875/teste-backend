@@ -25,7 +25,7 @@ class UpdateLinkRequest extends FormRequest
     {
         return [
             'url' => ['bail', 'required', 'url', 'string', 'max:250'],
-            'slug' => ['bail', 'nullable', 'string', 'min:6', 'max:8', 'unique:links,slug,'.$this->link],
+            'slug' => ['bail', 'nullable', 'string', 'min:6', 'max:8', 'unique:links,slug,'.$this->link->id],
         ];
     }
 

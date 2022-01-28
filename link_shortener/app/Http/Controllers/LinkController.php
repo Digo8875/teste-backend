@@ -43,7 +43,7 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(User $user, StoreLinkRequest $request)
+    public function store(StoreLinkRequest $request)
     {
         $link_details = $request->only([
             'url',
@@ -54,7 +54,7 @@ class LinkController extends Controller
             $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
         }
 
-        $link_details['id_user'] = $user->id;
+        $link_details['id_user'] = auth()->user()->id;
 
         $this->link_repository->createLink($link_details);
 
@@ -76,13 +76,13 @@ class LinkController extends Controller
     {
         $this->authorize('edit', $link);
 
-        return view('links.create_edit', ['link' => $this->link_repository->getLinkById($id)]);
+        return view('links.create_edit', ['link' => $link]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateLinkRequest $request, $id)
+    public function update(UpdateLinkRequest $request, Link $link)
     {
         $this->authorize('update', $link);
 
@@ -95,7 +95,7 @@ class LinkController extends Controller
             $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
         }
 
-        $this->link_repository->updateLink($link_details, $id);
+        $this->link_repository->updateLink($link_details, $link);
 
         return redirect()->route('links.index');
     }
@@ -103,11 +103,11 @@ class LinkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Link $link)
     {
         $this->authorize('delete', $link);
 
-        $this->link_repository->deleteLink($id);
+        $this->link_repository->deleteLink($link);
 
         return redirect()->route('links.index');
     }
