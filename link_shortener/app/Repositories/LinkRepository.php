@@ -19,7 +19,7 @@ class LinkRepository
 
     public function getAllLinks()
     {
-        return Link::all();
+        return Link::where('id_user', '=', auth()->user()->id)->get();
     }
 
     public function getLinkById($id)
@@ -48,9 +48,9 @@ class LinkRepository
     public function getLinkBySlug($slug, $return_type = 'fail')
     {
         if ($return_type == 'fail')
-            return Link::where('slug', '=', $slug)->firstOrFail();
+            return Link::where('slug', '=', $slug)->withTrashed()->firstOrFail();
         else
-            return Link::where('slug', '=', $slug)->first();
+            return Link::where('slug', '=', $slug)->withTrashed()->first();
     }
 
     public function incrementLinkAccess($id)

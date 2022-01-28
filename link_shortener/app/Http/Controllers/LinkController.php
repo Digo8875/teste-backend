@@ -10,6 +10,9 @@ use App\Http\Requests\ImportLinkRequest;
 use App\Repositories\LinkRepository;
 use App\Repositories\AccessorRepository;
 
+use App\User;
+use App\Models\Link;
+
 class LinkController extends Controller
 {
     protected $link_repository;
@@ -40,7 +43,7 @@ class LinkController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreLinkRequest $request)
+    public function store(User $user, StoreLinkRequest $request)
     {
         $link_details = $request->only([
             'url',
@@ -51,7 +54,7 @@ class LinkController extends Controller
             $link_details['slug'] = substr(md5(uniqid(mt_rand(), true)) , 0, mt_rand(6,8));
         }
 
-        $link_details['id_user'] = auth()->user()->id;
+        $link_details['id_user'] = $user->id;
 
         $this->link_repository->createLink($link_details);
 
@@ -61,7 +64,7 @@ class LinkController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Link $link)
     {
         //
     }
@@ -69,8 +72,10 @@ class LinkController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Link $link)
     {
+        $this->authorize('edit', $link);
+
         return view('links.create_edit', ['link' => $this->link_repository->getLinkById($id)]);
     }
 
@@ -79,6 +84,8 @@ class LinkController extends Controller
      */
     public function update(UpdateLinkRequest $request, $id)
     {
+        $this->authorize('update', $link);
+
         $link_details = $request->only([
             'url',
             'slug'
@@ -98,13 +105,15 @@ class LinkController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('delete', $link);
+
         $this->link_repository->deleteLink($id);
 
         return redirect()->route('links.index');
     }
 
     /**
-     * Get the specified link from storage with an slug.
+     * Get the specified link from storage through the slug, save access data and redirects the accessor.
      */
     public function getLinkBySlug($slug)
     {
@@ -118,7 +127,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Get the specified link from storage with an slug.
+     * Import Links through an CSV file input.
      */
     public function importLinks(ImportLinkRequest $request)
     {
@@ -161,7 +170,7 @@ class LinkController extends Controller
     }
 
     /**
-     * Store many newly created resources in storage through an archive.
+     * Export all user links to a CSV file
      */
     public function exportLinks()
     {

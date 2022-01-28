@@ -41,17 +41,19 @@
                             <td class="text-center" style="vertical-align: middle;">{{ $links[$i]->accesses }}</td>
 
                             <td class="text-center" style="vertical-align: middle;">
-                                <a href="{{ route('links.edit', $links[$i]->id) }}" title="{{__('Editar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2'>
-                                    <i class="fas fa-edit fa-lg"></i>
-                                </a>
+                                <div class="row m-0 p-0 justify-content-center">
+                                    <a href="{{ route('links.edit', $links[$i]->id) }}" title="{{__('Editar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 m-1'>
+                                        <i class="fas fa-edit fa-lg"></i>
+                                    </a>
 
-                                <a href="#" title="{{__('Excluir')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2' onclick="event.preventDefault(); document.getElementById('excluir-obj-form-{{$i}}').submit();">
-                                    <i class="far fa-trash-alt fa-lg"></i>
-                                </a>
-                                <form id="excluir-obj-form-{{$i}}" action="{{ route('links.destroy', $links[$i]->id) }}" method="POST" style="display: none;">
-                                    @csrf
-                                    {{ method_field('DELETE') }}
-                                </form>
+                                    <a href="#" title="{{__('Excluir')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 m-1' onclick="event.preventDefault(); document.getElementById('excluir-obj-form-{{$i}}').submit();">
+                                        <i class="far fa-trash-alt fa-lg"></i>
+                                    </a>
+                                    <form id="excluir-obj-form-{{$i}}" action="{{ route('links.destroy', $links[$i]->id) }}" method="POST" style="display: none;">
+                                        @csrf
+                                        {{ method_field('DELETE') }}
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endfor
