@@ -8,8 +8,8 @@
             {{ isset($link->id) ? __('Editar Link') : __('Novo Link') }}
         </div>
 
-        <div class="card-body mt-4 font-conteudo">
-            @if(isset($obj->id))
+        <div class="card-body mt-4">
+            @if(isset($link->id))
             <form method="POST" action="{{ route('links.update', $link->id) }}" enctype="multipart/form-data">
                 <input type="hidden" name="_method" value="PATCH">
             @else
