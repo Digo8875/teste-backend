@@ -24,8 +24,20 @@ class StoreLinkRequest extends FormRequest
     public function rules()
     {
         return [
-            'url' => ['bail', 'required', 'string', 'max:250'],
+            'url' => ['bail', 'required', 'url', 'string', 'max:250'],
             'slug' => ['bail', 'nullable', 'string', 'max:8', 'unique:links'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'url.url' => 'A Full URL with http:// or https:// is required',
         ];
     }
 }

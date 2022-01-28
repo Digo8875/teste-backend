@@ -5,6 +5,9 @@
 
     <div class="card">
         <div class="card-header">
+            <a href="{{ route('home') }}" title="{{__('Voltar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 mr-3'>
+                <i class="fas fa-undo-alt fa-lg"></i>
+            </a>
             {{ isset($link->id) ? __('Editar Link') : __('Novo Link') }}
         </div>
 
@@ -21,7 +24,7 @@
                     <label for="url" class="col-md-4 col-form-label text-md-right ">{{ __('URL') }}<span style="color: red;">*</span></label>
 
                     <div class="col-md-6">
-                        <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ isset($link->url) ? $link->url  : old('url') }}" placeholder="{{ __('URL') }}" required maxlength="250">
+                        <input id="url" type="text" class="form-control @error('url') is-invalid @enderror" name="url" value="{{ isset($link->url) ? $link->url  : old('url') }}" placeholder="{{ __('URL completa com http/https') }}" required maxlength="250">
 
                         @error('url')
                             <span class="invalid-feedback" role="alert">

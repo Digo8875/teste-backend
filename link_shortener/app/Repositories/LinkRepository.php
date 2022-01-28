@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Link;
+use App\Models\Accessor;
 
 class LinkRepository
 {
@@ -33,6 +34,27 @@ class LinkRepository
         foreach ($link_details as $key => $value) {
             $link->$key = $value;
         }
+
+        return $link->save();
+    }
+
+    public function deleteLink($id)
+    {
+        $link = Link::findOrFail($id);
+
+        return $link->delete();
+    }
+
+    public function getLinkBySlug($slug)
+    {
+        return Link::where('slug', '=', $slug)->firstOrFail();
+    }
+
+    public function incrementLinkAccess($id)
+    {
+        $link = Link::findOrFail($id);
+
+        $link->accesses = $link->accesses + 1;
 
         return $link->save();
     }

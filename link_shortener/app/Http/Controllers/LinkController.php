@@ -7,14 +7,17 @@ use App\Http\Requests\StoreLinkRequest;
 use App\Http\Requests\UpdateLinkRequest;
 
 use App\Repositories\LinkRepository;
+use App\Repositories\AccessorRepository;
 
 class LinkController extends Controller
 {
     protected $link_repository;
+    protected $accessor_repository;
 
-    public function __construct(LinkRepository $link_repository)
+    public function __construct(LinkRepository $link_repository, AccessorRepository $accessor_repository)
     {
         $this->link_repository = $link_repository;
+        $this->accessor_repository = $accessor_repository;
     }
 
     /**
@@ -94,6 +97,22 @@ class LinkController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->link_repository->deleteLink($id);
+
+        return redirect()->route('links.index');
+    }
+
+    /**
+     * Get the specified link from storage with an slug.
+     */
+    public function getLinkBySlug($slug)
+    {
+        $link = $this->link_repository->getLinkBySlug($slug);
+
+        $this->link_repository->incrementLinkAccess($link->id);
+
+        $this->accessor_repository->createAccessor($link->id);
+
+        return redirect()->away($link->url);
     }
 }

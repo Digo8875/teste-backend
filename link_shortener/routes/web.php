@@ -21,6 +21,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/get_link/{slug}', 'LinkController@getLinkBySlug')->name('get_link');
+
 //Route Group for Logged Users
 Route::middleware('auth')->group(function() {
 

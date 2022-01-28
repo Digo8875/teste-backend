@@ -5,6 +5,9 @@
 
     <div class="card">
         <div class="card-header">
+            <a href="{{ route('home') }}" title="{{__('Voltar')}}" style='cursor: pointer; border: 1px solid gray; text-decoration:none;' class='rounded p-2 mr-3'>
+                <i class="fas fa-undo-alt fa-lg"></i>
+            </a>
             {{ __('Seus Links') }}
         </div>
 
@@ -30,7 +33,11 @@
                         <tr>
                             <td class="text-center" style="vertical-align: middle;">{{ $i + 1 }}</td>
                             <td class="text-center" style="vertical-align: middle;">{{ $links[$i]->url }}</td>
-                            <td class="text-center" style="vertical-align: middle;">{{ $links[$i]->slug }}</td>
+                            <td class="text-center" style="vertical-align: middle;">
+                                <a href="{{ route('get_link', $links[$i]->slug) }}" target="_blank" rel="noopener noreferrer">
+                                    {{ $links[$i]->slug }}
+                                </a>
+                            </td>
                             <td class="text-center" style="vertical-align: middle;">{{ $links[$i]->accesses }}</td>
 
                             <td class="text-center" style="vertical-align: middle;">

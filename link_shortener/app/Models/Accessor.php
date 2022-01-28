@@ -18,7 +18,7 @@ class Accessor extends Model
      * @var array
      */
     protected $fillable = [
-        'ip', 'user_agent',
+        'ip', 'user_agent', 'id_link',
     ];
 
     /**
@@ -27,7 +27,7 @@ class Accessor extends Model
      * @var array
      */
     protected $guarded = [
-        'id', 'id_link',
+        'id',
     ];
 
     /**
